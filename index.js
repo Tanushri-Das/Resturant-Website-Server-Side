@@ -135,6 +135,7 @@ async function run() {
     // menu related apis
     app.get("/menu", async (req, res) => {
       const result = await menuCollection.find().toArray();
+      console.log(result)
       res.send(result);
     });
 
@@ -143,6 +144,18 @@ async function run() {
       const result = await menuCollection.insertOne(newItem);
       res.send(result);
     });
+    
+    // Update a menu item by ID
+    app.put("/menu/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const updatedData = req.body; // Get the updated data from the request body
+      const result = await menuCollection.updateOne(filter, { $set: updatedData });
+      console.log(result)
+    });
+    
+    
+
 
     app.delete("/menu/:id", verifyJWT, verifyAdmin, async (req, res) => {
       const id = req.params.id;
