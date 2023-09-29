@@ -133,12 +133,22 @@ async function run() {
     });
 
     // menu related apis
+    // app.get("/menu", async (req, res) => {
+    //   const result = await menuCollection.find().toArray();
+    //   console.log(result)
+    //   res.send(result);
+    // });
     app.get("/menu", async (req, res) => {
-      const result = await menuCollection.find().toArray();
-      console.log(result)
-      res.send(result);
+      try {
+        // Retrieve menu items from the database or another data source
+        const menuItems = await menuCollection.find().toArray();
+        res.json(menuItems);
+      } catch (error) {
+        console.error("Error:", error);
+        res.status(500).send({ error: true, message: "An error occurred" });
+      }
     });
-
+    
     app.post("/menu", verifyJWT, verifyAdmin, async (req, res) => {
       const newItem = req.body;
       const result = await menuCollection.insertOne(newItem);
