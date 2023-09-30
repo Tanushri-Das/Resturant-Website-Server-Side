@@ -44,7 +44,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    client.connect();
 
     const menuCollection = client.db("ResturantWebsite").collection("menu");
     const reviewCollection = client.db("ResturantWebsite").collection("reviews");
